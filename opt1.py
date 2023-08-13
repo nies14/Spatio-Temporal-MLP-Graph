@@ -101,6 +101,14 @@ class opts():
         self.parser.add_argument('--lamda', '--weight_L1_norm', default=0.1, type=float, metavar='N', help='scale of L1 Norm')
         self.parser.add_argument('-seed','--manual_seed', default=1420, type=int, help='manual seed value')
 
+        self.parser.add_argument('-df','--difficult_pose_data', type=str, 
+                                 default='./dataset/', 
+                                 help='difficult pose_data path')
+        self.parser.add_argument('-dfn','--difficult_pose_data_name', type=str, 
+                                 default='whole_body_S0.05_f5_1_gt.npz', 
+                                 help='difficult pose data name')
+        
+
     def parse(self):
         self.init()
         self.opt = self.parser.parse_args()
