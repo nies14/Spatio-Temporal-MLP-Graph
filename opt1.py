@@ -99,7 +99,7 @@ class opts():
         self.parser.add_argument('-previous_wj_gcn_name', type=str, default='', help='save last saved model name')
         self.parser.add_argument('-previous_post_refine_name', type=str, default='', help='save last saved model name')
         self.parser.add_argument('--lamda', '--weight_L1_norm', default=0.1, type=float, metavar='N', help='scale of L1 Norm')
-        self.parser.add_argument('--manual_seed','--manual_seed', default=1420, type=int, help='manual seed value')
+        self.parser.add_argument('-seed','--manual_seed', default=1420, type=int, help='manual seed value')
 
     def parse(self):
         self.init()
