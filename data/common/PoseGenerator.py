@@ -13,7 +13,6 @@ class PoseBuffer(Dataset):
         self._poses_2d = np.concatenate(poses_2d)
 
         assert self._poses_3d.shape[0] == self._poses_2d.shape[0]
-        print('Generating {} poses...'.format(self._poses_3d.shape[0]))
 
     def __getitem__(self, index):
         out_pose_3d = self._poses_3d[index]

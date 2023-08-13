@@ -107,6 +107,10 @@ class opts():
         self.parser.add_argument('-dfn','--difficult_pose_data_name', type=str, 
                                  default='whole_body_S0.05_f5_1_gt.npz', 
                                  help='difficult pose data name')
+        self.parser.add_argument('-mpi_3dhp_name','--mpi_3dhp_name', type=str, 
+                                 default='data_2d_3DHP.npz', 
+                                 help='3dhp evalution dataset_name')
+        
         
 
     def parse(self):

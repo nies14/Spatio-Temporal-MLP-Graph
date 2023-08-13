@@ -119,16 +119,18 @@ class STMLPGraph(nn.Module):
         self.gconv_layers = GraphMlpMixer(adj, in_channels = opt.hid_dim, spatial_dim = opt.spatial_hid_dim, channel_dim = opt.channel_hid_dim, depth=opt.num_layers, p_dropout=p_dropout, opt=opt)
         
     def forward_spatial_temporal(self,x):
+        #this only for when call mpi_test_16_joints file
         x = x.unsqueeze(2)
         #b,c,f,j = x.shape
-        x = rearrange(x, 'b j f c -> b j (f c)')
+        x = rearrange(x, 'b c f j -> b j (f c)')
 
         out = self.to_patch_embedding(x)
         initial = out
         out = self.gconv_layers(out, initial)
-        #out = out.permute(0,2,1)
+        out = out.permute(0,2,1)
+        out = out.unsqueeze(2)
+        out = out.unsqueeze(4)
         return out
-
         
     def forward(self, x):    
 
