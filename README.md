@@ -99,7 +99,7 @@ python main_graph.py -k gt --post_refine --post_refine_reload 1 --save_out_type 
 To evaluate the model using MPI-INF-3DHP, please run:
 ```bash
 git checkout feature/mpi3DHP_evaluation
-python mpi3DHP.py --save_dir './checkpoint/3DHP/' -z 128 -ds 128 -dc 256 -k gt --previous_dir './checkpoint/GT/Frame-1' --mlp_graph_model 'model_wj_gcn_6_eva_xyz_3634.pth' -mpi_3dhp_name '3DHP_test.npz'
+python mpi3DHP.py --save_dir './checkpoint/3DHP/' -z 128 -ds 128 -dc 256 -k gt --previous_dir './checkpoint/Pre-trained/GT/Frame-1/Without-Pose-Refine/' --mlp_graph_model 'model_mlp_graph_6_eva_xyz_3634.pth' -mpi_3dhp_name '3DHP_test.npz'
 ```
 
 
