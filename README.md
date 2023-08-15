@@ -60,10 +60,10 @@ To train our model using the detected 2D keypoints (HR-Net) with 243 frames and 
 ```bash
 python main_graph.py -k hr --pro_train 1 --save_model 1 --save_dir './checkpoint/train-scratch/HR-NET/Frame-243/Pose-Refine' --post_refine --save_out_type post --show_protocol2 --nepoch 51 -z 384 -ds 384 -dc 768 --batchSize 256 --pad 121
 ```
-The above command will create a folder named 'HR-Net' and should save 2 models.
+The above command will create a folder structure 'checkpoint/train-scratch/HR-NET/Frame-243/Pose-Refine' and should save 2 models.
 
-- **model_mlp_graph**: Saved model name without pose refinement. It should look like model_wj_gcn_36_eva_post_4414.pth
-- **model_post_refine**: Saved model name with pose refinement. It should look like model_post_refine_36_eva_post_4414.pth
+- **model_mlp_graph**: Saved model name without pose refinement. It should look like model_wj_gcn_*_eva_post_*.pth
+- **model_post_refine**: Saved model name with pose refinement. It should look like model_post_refine_*_eva_post_*.pth
 
 Please make sure to replcace the `model_mlp_graph` & `model_post_refine` with the saved model names before running the following commands.
 
@@ -115,5 +115,6 @@ Our code refers to the following repositories.
 * [ModulatedGCN](https://github.com/ZhimingZo/Modulated-GCN)
 * [PoseAug](https://github.com/jfzhang95/PoseAug)
 * [MHFormer](https://github.com/Vegetebird/MHFormer)
+* [Split-and-Recombine-Net](https://github.com/ailingzengzzz/Split-and-Recombine-Net)
 
 We thank the authors for releasing their codes.
