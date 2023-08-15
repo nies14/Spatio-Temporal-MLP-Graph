@@ -38,19 +38,19 @@ def step(split, opt, actions, dataLoader, model, criterion, optimizer=None,epoch
     criterion_mse = criterion['MSE']
     #add sparsity constaint 
     criterion_L1 = criterion['L1']
-    model_wj_gcn = model['wj_gcn']
+    model_mlp_graph = model['mlp_graph']
     model_post_refine = model['post_refine']
 
 
     if split == 'train':
-        model_wj_gcn.train()
+        model_mlp_graph.train()
         if opt.out_all:
             out_all_frame = True
         else:
             out_all_frame = False
 
     else:
-        model_wj_gcn.eval()
+        model_mlp_graph.eval()
         out_all_frame = False
 
     torch.cuda.synchronize()
@@ -87,10 +87,10 @@ def step(split, opt, actions, dataLoader, model, criterion, optimizer=None,epoch
 
         # start forward process
         if opt.test_augmentation and split =='test':
-            input_2D, output_3D = input_augmentation(input_2D, model_wj_gcn, joints_left, joints_right)
+            input_2D, output_3D = input_augmentation(input_2D, model_mlp_graph, joints_left, joints_right)
         else:
             input_2D = input_2D.view(N, -1, opt.n_joints,opt.in_channels, 1).permute(0, 3, 1, 2, 4).type(torch.cuda.FloatTensor) # N, C, T, J, M
-            output_3D = model_wj_gcn(input_2D)
+            output_3D = model_mlp_graph(input_2D)
 
         output_3D = output_3D.permute(0, 2, 3, 4, 1).contiguous().view(N, -1, opt.n_joints, opt.out_channels)
         output_3D = output_3D * scale.unsqueeze(-1).unsqueeze(-1).unsqueeze(-1).repeat(1, output_3D.size(1),opt.n_joints, opt.out_channels)
@@ -205,11 +205,11 @@ def train(opt, actions,train_loader,model, criterion, optimizer):
 def val( opt, actions,val_loader, model, criterion,epoch=0,logger=None):
     return step('test',  opt,actions, val_loader, model, criterion,epoch=epoch,logger=logger)
 
-def input_augmentation(input_2D, model_wj_gcn, joints_left, joints_right):
+def input_augmentation(input_2D, model_mlp_graph, joints_left, joints_right):
     """
     for calculating augmentation results
     :param input_2D:
-    :param model_wj_gcn:
+    :param model_mlp_graph:
     :param joints_left: joint index of left part
     :param joints_right: joint index of right part
     :return:
@@ -219,10 +219,10 @@ def input_augmentation(input_2D, model_wj_gcn, joints_left, joints_right):
     input_2D_non_flip = input_2D[:, 0].view(N, T, J, C, 1).permute(0, 3, 1, 2, 4) #N, C, T, J , M
 
     # flip and reverse to original xyz
-    output_3D_flip = model_wj_gcn(input_2D_flip)
+    output_3D_flip = model_mlp_graph(input_2D_flip)
     output_3D_flip[:, 0] *= -1
     output_3D_flip[:, :, :, joints_left + joints_right] = output_3D_flip[:, :, :, joints_right + joints_left]
-    output_3D_non_flip = model_wj_gcn(input_2D_non_flip)
+    output_3D_non_flip = model_mlp_graph(input_2D_non_flip)
 
     output_3D = (output_3D_non_flip + output_3D_flip) / 2
     input_2D = input_2D_non_flip

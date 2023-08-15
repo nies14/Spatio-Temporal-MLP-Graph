@@ -79,7 +79,7 @@ p_dropout = (None if opt.dropout == 0.0 else opt.dropout)
 adj = adj_mx_from_skeleton(dataset.skeleton())
 
 # load model
-model['wj_gcn'] = STMLPGraph(adj, opt.hid_dim, num_layers=opt.num_layers, p_dropout=p_dropout, nodes_group=None, opt = opt).cuda()
+model['mlp_graph'] = STMLPGraph(adj, opt.hid_dim, num_layers=opt.num_layers, p_dropout=p_dropout, nodes_group=None, opt = opt).cuda()
 model['post_refine'] = post_refine(opt).cuda()
 
 
@@ -97,8 +97,8 @@ if opt.pro_test:
 total_param=0
 all_param = []
 
-all_param += list(model['wj_gcn'].parameters())
-total_param += sum(p.numel() for p in model['wj_gcn'].parameters())
+all_param += list(model['mlp_graph'].parameters())
+total_param += sum(p.numel() for p in model['mlp_graph'].parameters())
 
 if opt.post_refine:
     all_param += list(model['post_refine'].parameters())
@@ -115,18 +115,18 @@ print("==> Total parameters: {:.2f}M".format(total_param / 1000000.0))
 
 #4. Reload model
 
-wj_gcn_dict = model['wj_gcn'].state_dict()
+mlp_graph_dict = model['mlp_graph'].state_dict()
 
-if opt.wj_gcn_reload == 1: 
+if opt.mlp_graph_reload == 1: 
     
-    pre_dict_wj_gcn = torch.load(os.path.join(opt.previous_dir, opt.wj_gcn_model))
+    pre_dict_mlp_graph = torch.load(os.path.join(opt.previous_dir, opt.mlp_graph_model))
     #for name, key in stgcn_dict.items():
-    for name, key in wj_gcn_dict.items(): 
+    for name, key in mlp_graph_dict.items(): 
         if name.startswith('A') == False:
            
-            wj_gcn_dict[name] = pre_dict_wj_gcn[name]
+            mlp_graph_dict[name] = pre_dict_mlp_graph[name]
     
-    model['wj_gcn'].load_state_dict(wj_gcn_dict)
+    model['mlp_graph'].load_state_dict(mlp_graph_dict)
 
 post_refine_dict = model['post_refine'].state_dict()
 if opt.post_refine_reload == 1:
@@ -182,7 +182,7 @@ for epoch in range(1, opt.nepoch):
 
 
             if opt.save_model and data_threshold < opt.previous_best_threshold:
-                opt.previous_wj_gcn_name = save_model(opt.previous_wj_gcn_name, opt.save_dir, epoch, opt.save_out_type, data_threshold, model['wj_gcn'], 'wj_gcn')
+                opt.previous_mlp_graph_name = save_model(opt.previous_mlp_graph_name, opt.save_dir, epoch, opt.save_out_type, data_threshold, model['mlp_graph'], 'mlp_graph')
 
                 if opt.post_refine:
                     opt.previous_post_refine_name = save_model(opt.previous_post_refine_name, opt.save_dir, epoch, opt.save_out_type,
@@ -191,7 +191,17 @@ for epoch in range(1, opt.nepoch):
                 opt.previous_best_threshold = data_threshold
 
 
-    if epoch % opt.large_decay_epoch == 0:
-        for param_group in optimizer_all.param_groups:
-            param_group['lr'] *= opt.lr_decay
-            lr *= opt.lr_decay
+    if opt.keypoints == 'gt':
+        if epoch % opt.large_decay_epoch == 0: 
+            for param_group in optimizer_all.param_groups:
+                param_group['lr'] *= opt.lr_decay_large
+                lr *= opt.lr_decay_large   
+        else:
+            for param_group in optimizer_all.param_groups:
+                param_group['lr'] *= opt.lr_decay
+                lr *= opt.lr_decay
+    else:
+        if epoch % opt.large_decay_epoch == 0:
+            for param_group in optimizer_all.param_groups:
+                param_group['lr'] *= opt.lr_decay
+                lr *= opt.lr_decay
