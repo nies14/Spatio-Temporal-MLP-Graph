@@ -36,11 +36,11 @@ pip install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio==0.7.0 -f htt
 Our model is evaluated on [Human3.6M](http://vision.imar.ro/human3.6m) and [MPI-INF-3DHP](https://vcai.mpi-inf.mpg.de/3dhp-dataset/) datasets. 
 
 ### Human3.6M & MPI-INF-3DHP
-We set up the Human3.6M & MPI-INF-3DHP dataset in the same way as [PoseAug](https://github.com/jfzhang95/PoseAug). Please refer to [DATASETS.md](https://github.com/jfzhang95/PoseAug/blob/main/DATASETS.md) for the preparation of the dataset files & put them in `./dataset` directory.
+We set up the Human3.6M & MPI-INF-3DHP dataset in the same way as [PoseAug](https://github.com/jfzhang95/PoseAug). Please refer to [DATASETS.md](https://github.com/jfzhang95/PoseAug/blob/main/DATASETS.md) for the preparation of the dataset files & put them in `./dataset` directory. You can also download from [Here](https://drive.google.com/drive/folders/1TgQ2DBYF8uPz7HS4Y17_eEN2fuGNKsFc?usp=sharing). 
 
 
 ## Evaluating our pre-trained models
-You can download our pre-trained models from [here](https://drive.google.com/drive/folders/1gWk1B-q-220XR-9MqdlqJFtUI3eBVJe6?usp=sharing). Put them in the `./checkpoint` directory.
+You can download our pre-trained models from [here](https://drive.google.com/drive/folders/1BzpgF_Oc1lr036WVi_EKBT4GrZg8QaTQ?usp=sharing). Put them in the `./checkpoint` directory.
 ### Human 3.6M
 
 To evaluate our pre-trained model using the detected 2D keypoints (HR-Net) with pose refinement, please run:
@@ -95,14 +95,15 @@ python main_graph.py -k gt --post_refine --post_refine_reload 1 --save_out_type 
 
 
 ## Testing on MPI-INF-3DHP
-### We performed cross dataset evaluation. We trained our model using ground truth 2D keypoints and Human 3.6M dataset. Then, we tested on the test set of MPI-INF-3DHP.
-To evaluate the model using MPI-INF-3DHP, please run:
+### We performed cross dataset evaluation. We trained our model using ground truth 2D keypoints and Human 3.6M dataset. Then, we tested on the test set of MPI-INF-3DHP. 
+Download '3DHP_test' from [here](https://drive.google.com/drive/folders/1gWk1B-q-220XR-9MqdlqJFtUI3eBVJe6?usp=sharing) and put it into dataset folder. To evaluate the model using MPI-INF-3DHP, please run:
 ```bash
 git checkout feature/mpi3DHP_evaluation
 python mpi3DHP.py --save_dir './checkpoint/3DHP/' -z 128 -ds 128 -dc 256 -k gt --previous_dir './checkpoint/Pre-trained/GT/Frame-1/Without-Pose-Refine/' --mlp_graph_model 'model_mlp_graph_6_eva_xyz_3634.pth' -mpi_3dhp_name '3DHP_test.npz'
 ```
 
 ## Testing on Difficult Pose
+Download 'whole_body_S0.05_f5_1_gt' from [here](https://drive.google.com/drive/folders/1gWk1B-q-220XR-9MqdlqJFtUI3eBVJe6?usp=sharing).
 To evaluate our model on the top 5% hardest poses of Human3.6M, please run:
 ```bash
 git checkout feature/difficult_pose
@@ -115,5 +116,6 @@ Our code refers to the following repositories.
 * [ModulatedGCN](https://github.com/ZhimingZo/Modulated-GCN)
 * [PoseAug](https://github.com/jfzhang95/PoseAug)
 * [MHFormer](https://github.com/Vegetebird/MHFormer)
+* [Split-and-Recombine-Net](https://github.com/ailingzengzzz/Split-and-Recombine-Net)
 
 We thank the authors for releasing their codes.
