@@ -11,7 +11,7 @@ The PyTorch implementation for MLP-Graph.
 | [High-order GCN](https://github.com/ZhimingZo/HGCN) | 39.52 | 31.07 | .013s |
 | [Weight Unsharing](https://github.com/tamasino52/Any-GCN) | 37.83 | 30.09 | 0.32s |
 | [ModulatedGCN](https://github.com/ZhimingZo/Modulated-GCN) | 37.43 | 29.73 | 0.08s |
-| Ours | **36.34* | **28.97** | **0.05s** |
+| Ours      | **36.34** | **28.97** | **0.05s** |
 
 ## Dependencies
 
@@ -109,6 +109,9 @@ To evaluate our model on the top 5% hardest poses of Human3.6M, please run:
 git checkout feature/difficult_pose
 python difficult_pose.py --save_dir './results/difficult_pose' -z 128 -ds 128 -dc 256 -k gt --previous_dir './checkpoint/Pre-trained/GT/Frame-1/Without-Pose-Refine/' --mlp_graph_model model_mlp_graph_6_eva_xyz_3634.pth -df './dataset/' -dfn whole_body_S0.05_f5_1_gt.npz
 ```
+
+## Inference in the wild
+We utilized our pre-trained model to perform inference on wild images/videos, following the approach of [MHFormer](https://github.com/Vegetebird/MHFormer).
 
 ## Acknowledgement
 Our code refers to the following repositories.
