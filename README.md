@@ -102,6 +102,12 @@ git checkout feature/mpi3DHP_evaluation
 python mpi3DHP.py --save_dir './checkpoint/3DHP/' -z 128 -ds 128 -dc 256 -k gt --previous_dir './checkpoint/Pre-trained/GT/Frame-1/Without-Pose-Refine/' --mlp_graph_model 'model_mlp_graph_6_eva_xyz_3634.pth' -mpi_3dhp_name '3DHP_test.npz'
 ```
 
+## Testing on Difficult Pose
+To evaluate our model on the top 5% hardest poses of Human3.6M, please run:
+```bash
+git checkout feature/difficult_pose
+python difficult_pose.py --save_dir './results/difficult_pose' -z 128 -ds 128 -dc 256 -k gt --previous_dir './checkpoint/Pre-trained/GT/Frame-1/Without-Pose-Refine/' --mlp_graph_model model_mlp_graph_6_eva_xyz_3634.pth -df './dataset/' -dfn whole_body_S0.05_f5_1_gt.npz
+```
 
 ## Acknowledgement
 Our code refers to the following repositories.
