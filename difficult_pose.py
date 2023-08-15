@@ -183,7 +183,7 @@ def main(opt):
     print("==> Total parameters: {:.2f}M".format(sum(p.numel() for p in model_pos.parameters()) / 1000000.0))
 
     #ckpt_path = './results/New/GT/Pose-Refine/128_128_L_3_frame_1/wo_pose_refine/model_wj_gcn_6_eva_xyz_3634.pth'
-    ckpt_path = opt.previous_dir + opt.wj_gcn_model
+    ckpt_path = opt.previous_dir + opt.mlp_graph_model
     
     pre_dict_module_gcn = torch.load(os.path.join(ckpt_path))
     module_gcn_dict = model_pos.state_dict()

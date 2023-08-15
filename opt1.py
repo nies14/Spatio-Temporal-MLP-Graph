@@ -44,7 +44,7 @@ class opts():
         self.parser.add_argument('-ds', '--spatial_hid_dim', default=384, type=int, metavar='N', help='num of hidden dimensions')
         self.parser.add_argument('-dc', '--channel_hid_dim', default=384, type=int, metavar='N', help='num of hidden dimensions')
         self.parser.add_argument('-norm', '--norm', default=0.01, type=float, metavar='N', help='constraint  of sparsity')
-        self.parser.add_argument('--save_dir', default='', type=str, help='model save dir')
+        self.parser.add_argument('--save_dir', default='./checkpoint/Test', type=str, help='model save dir')
         #end modification 
         # ===============================================================
 
@@ -80,12 +80,12 @@ class opts():
         self.parser.add_argument('--save_out_type', type=str, default='xyz', help='xyz/uvd/post/time')
 
         self.parser.add_argument('--post_refine', action='store_true', help='if use post_refine model')
-        self.parser.add_argument('--wj_gcn_reload', type=int, default=0, help='if continue from last time')
+        self.parser.add_argument('--mlp_graph_reload', type=int, default=0, help='if continue from last time')
         self.parser.add_argument('--post_refine_reload', type=int, default=0, help='if continue from last time')
         self.parser.add_argument('--previous_dir', type=str,
                                  default='./ckpt/module_256/',
                                  help='previous output folder')
-        self.parser.add_argument('--wj_gcn_model', type=str, default='model_module_gcn_7_eva_post_4939.pth', help='model name')
+        self.parser.add_argument('--mlp_graph_model', type=str, default='model_module_gcn_7_eva_post_4939.pth', help='model name')
         self.parser.add_argument('--post_refine_model', type=str, default='model_post_refine_7_eva_post_4939.pth',
                                  help='model name')
 
@@ -96,7 +96,7 @@ class opts():
         self.parser.add_argument('--out_channels', type=int, default=3, help='expected input channels here 2')
         self.parser.add_argument('-previous_best_threshold', type=float, default= math.inf,
                             help='threshold data:reg_RGB_3D/reg_3D_3D')
-        self.parser.add_argument('-previous_wj_gcn_name', type=str, default='', help='save last saved model name')
+        self.parser.add_argument('-previous_mlp_graph_name', type=str, default='', help='save last saved model name')
         self.parser.add_argument('-previous_post_refine_name', type=str, default='', help='save last saved model name')
         self.parser.add_argument('--lamda', '--weight_L1_norm', default=0.1, type=float, metavar='N', help='scale of L1 Norm')
         self.parser.add_argument('-seed','--manual_seed', default=1420, type=int, help='manual seed value')
