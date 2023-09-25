@@ -1,4 +1,4 @@
-# Spatio-Temporal MLP-Graph Network for 3D Human Pose Estimation
+# Spatio-Temporal MLP-Graph Network for 3D Human Pose Estimation [[British Machine Vision Conference'2023]](https://arxiv.org/abs/2308.15313)
 <p align="center"><img src="./demo/Network_Architecture.png", width="600" alt="" /></p>
 The PyTorch implementation for MLP-Graph.
 
